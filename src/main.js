@@ -23,3 +23,57 @@ const itemData = {
         score: 36
     }
 };
+
+(() => {
+    document.addEventListener('DOMContentLoaded', () => {
+        const select = document.getElementById('items');
+        const img = document.getElementById('displayImage');
+        const photographer = document.getElementById('photographer');
+        const description = document.getElementById('description');
+        const score = document.getElementById('score');
+
+        const btnVoteUp = document.getElementById('increaseScore');
+        const btnVoteDown = document.getElementById('decreaseScore');
+
+        // Agregar elementos al select
+        Object.keys(itemData).forEach(key => {
+            const option = document.createElement('option');
+            option.value = key;
+            option.textContent = itemData[key].name;
+            select.appendChild(option);
+        });
+
+        // Escoge una opción del select
+        function showItem(key) {
+            const item = itemData[key];
+            if (!item) return;
+            img.src = item.image;
+            photographer.value = item.photographer;
+            description.value = item.description;
+            score.value = item.score;
+        }
+
+        // Cambiar datos al seleccionar un item
+        select.addEventListener('change', () => {
+            const key = select.value;
+            showItem(key);
+        });
+
+        // Aumentar o disminuir el puntaje
+        btnVoteUp.addEventListener('click', () => {
+            const key = select.value;
+            if (itemData[key]) {
+                itemData[key].score++;
+                score.value = itemData[key].score;
+            }
+        });
+
+        btnVoteDown.addEventListener('click', () => {
+            const key = select.value;
+            if (itemData[key]) {
+                itemData[key].score--;
+                score.value = itemData[key].score;
+            }
+        });
+    });
+})();
